@@ -1,6 +1,8 @@
 package com.company.hrms.ui;
 
 import com.company.hrms.model.User;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,7 +17,11 @@ public class MainFrame extends JFrame {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     JLabel header = new JLabel("当前用户：" + user.getUsername() + "（" + (user.isAdmin()?"管理员":"普通用户") + "）");
-    add(header, BorderLayout.NORTH);
+    JButton logout = new JButton("退出登录");
+    JPanel top = new JPanel(new BorderLayout());
+    top.add(header, BorderLayout.WEST);
+    top.add(logout, BorderLayout.EAST);
+    add(top, BorderLayout.NORTH);
 
     JTabbedPane tabs = new JTabbedPane();
     if (user.isAdmin()) {
@@ -27,6 +33,11 @@ public class MainFrame extends JFrame {
       tabs.addTab("修改密码", new ChangePasswordPanel(user));
     }
     add(tabs, BorderLayout.CENTER);
+
+    logout.addActionListener(e -> {
+      dispose();
+      new LoginFrame().setVisible(true);
+    });
   }
 }
 
